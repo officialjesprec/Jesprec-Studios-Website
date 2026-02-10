@@ -134,48 +134,49 @@ export const PROJECTS: Project[] = [
   }
 ];
 
-{
-  id: 'art1',
+export const ART_ITEMS: ArtItem[] = [
+  {
+    id: 'art1',
     name: 'Cyberpunk Skyline',
-      price: '₦250,000',
-        image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=600',
-          category: 'Original Canvas'
-},
-{
-  id: 'art2',
+    price: '₦250,000',
+    image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=600',
+    category: 'Original Canvas'
+  },
+  {
+    id: 'art2',
     name: 'Neural Abstract',
-      price: '₦180,000',
-        image: 'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=600',
-          category: 'Framed Print'
-},
-{
-  id: 'art3',
+    price: '₦180,000',
+    image: 'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=600',
+    category: 'Framed Print'
+  },
+  {
+    id: 'art3',
     name: 'Liquid Gold',
-      price: '₦320,000',
-        image: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=600',
-          category: 'Mixed Media'
-},
-{
-  id: 'art4',
+    price: '₦320,000',
+    image: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=600',
+    category: 'Mixed Media'
+  },
+  {
+    id: 'art4',
     name: 'Geometric Silence',
-      price: '₦150,000',
-        image: 'https://images.unsplash.com/photo-1550684847-75bdda21cc95?auto=format&fit=crop&q=80&w=600',
-          category: 'Acrylic on Wood'
-},
-{
-  id: 'art5',
+    price: '₦150,000',
+    image: 'https://images.unsplash.com/photo-1550684847-75bdda21cc95?auto=format&fit=crop&q=80&w=600',
+    category: 'Acrylic on Wood'
+  },
+  {
+    id: 'art5',
     name: 'Neon Dreams',
-      price: '₦210,000',
-        image: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&q=80&w=600',
-          category: 'Digital Print'
-},
-{
-  id: 'art6',
+    price: '₦210,000',
+    image: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&q=80&w=600',
+    category: 'Digital Print'
+  },
+  {
+    id: 'art6',
     name: 'Urban Decay',
-      price: '₦280,000',
-        image: 'https://images.unsplash.com/photo-1493612276216-9c59019558f3?auto=format&fit=crop&q=80&w=600',
-          category: 'Photography'
-}
+    price: '₦280,000',
+    image: 'https://images.unsplash.com/photo-1493612276216-9c59019558f3?auto=format&fit=crop&q=80&w=600',
+    category: 'Photography'
+  }
 ];
 
 export const CREATIVE_SERVICES: Service[] = [

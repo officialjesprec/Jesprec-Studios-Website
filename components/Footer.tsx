@@ -32,9 +32,9 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-white font-black mb-8 text-xs tracking-[0.4em] uppercase">Connect</h4>
             <ul className="space-y-6">
-              <li className="text-gray-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em] cursor-pointer">Instagram</li>
-              <li className="text-gray-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em] cursor-pointer">LinkedIn</li>
-              <li className="text-gray-500 hover:text-[#25D366] transition-colors text-xs font-bold uppercase tracking-[0.2em] cursor-pointer">WhatsApp Direct</li>
+              <li><a href="https://instagram.com/jesprec" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em] cursor-pointer block">Instagram</a></li>
+              <li><a href="https://linkedin.com/company/jesprec" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em] cursor-pointer block">LinkedIn</a></li>
+              <li><a href="https://wa.me/2348000000000" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-[#25D366] transition-colors text-xs font-bold uppercase tracking-[0.2em] cursor-pointer block">WhatsApp Direct</a></li>
             </ul>
           </div>
         </div>

@@ -26,14 +26,17 @@ const Navbar: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-[#121212]/95 backdrop-blur-xl py-4 shadow-xl' : 'bg-transparent py-6'}`}>
-      <div className="container mx-auto px-6 flex justify-between items-center">
-        <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center">
-          <Logo className="h-10 md:h-12" />
-        </Link>
+    <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 ${isScrolled ? 'bg-[#121212]/95 backdrop-blur-xl py-3 md:py-4 shadow-2xl' : 'bg-transparent py-5 md:py-8'}`}>
+      <div className="container mx-auto px-6 flex items-center justify-between">
+        {/* Logo Section - Aligned Left */}
+        <div className="lg:flex-1 flex justify-start">
+          <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center shrink-0">
+            <Logo className="h-8 md:h-11" />
+          </Link>
+        </div>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-10">
+        {/* Desktop Nav Links - Centered */}
+        <div className="hidden lg:flex items-center justify-center space-x-10">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -43,6 +46,10 @@ const Navbar: React.FC = () => {
               {link.name}
             </Link>
           ))}
+        </div>
+
+        {/* Desktop Button Section - Aligned Right */}
+        <div className="hidden lg:flex lg:flex-1 justify-end">
           <Link
             to="/quote"
             className="bg-[#BF00FF] hover:bg-[#FF007F] text-white px-8 py-3 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all transform hover:-translate-y-1 shadow-lg shadow-[#BF00FF]/20"
@@ -51,23 +58,23 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Toggle - Visible only on mobile */}
         <button
-          className="md:hidden text-white focus:outline-none p-2"
+          className="lg:hidden text-white focus:outline-none p-2 ml-4 shrink-0"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle Menu"
         >
-          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
           </svg>
         </button>
       </div>
 
       {/* Mobile Nav Overlay */}
-      <div className={`fixed inset-0 bg-[#121212] z-40 transition-transform duration-500 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden flex flex-col items-center justify-center space-y-8 p-6`}>
+      <div className={`fixed inset-0 bg-[#121212] z-[70] transition-transform duration-500 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden flex flex-col items-center justify-center space-y-10 p-6`}>
         <button 
           onClick={() => setIsMenuOpen(false)}
-          className="absolute top-8 right-8 text-gray-500 hover:text-white"
+          className="absolute top-8 right-8 text-gray-500 hover:text-white p-2"
         >
           <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
@@ -77,7 +84,7 @@ const Navbar: React.FC = () => {
             key={link.name}
             to={link.path}
             onClick={() => setIsMenuOpen(false)}
-            className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${isActive(link.path) ? 'text-[#BF00FF]' : 'text-gray-300'}`}
+            className={`text-3xl font-black uppercase tracking-[0.3em] transition-colors ${isActive(link.path) ? 'text-[#BF00FF]' : 'text-gray-300'}`}
           >
             {link.name}
           </Link>
@@ -85,7 +92,7 @@ const Navbar: React.FC = () => {
         <Link
           to="/quote"
           onClick={() => setIsMenuOpen(false)}
-          className="bg-[#BF00FF] text-white px-12 py-5 rounded-full text-sm font-black uppercase tracking-widest shadow-2xl shadow-[#BF00FF]/30"
+          className="bg-[#BF00FF] text-white px-12 py-5 rounded-full text-sm font-black uppercase tracking-widest shadow-2xl shadow-[#BF00FF]/30 w-full max-w-xs text-center"
         >
           START CONSULTATION
         </Link>

@@ -1,5 +1,6 @@
 
 export enum Vault {
+  ALL = 'All Vaults',
   VISUAL = 'Visual Vault',
   DIGITAL = 'Digital Vault',
   ART = 'Art Vault'

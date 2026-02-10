@@ -28,15 +28,15 @@ const Navbar: React.FC = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 ${isScrolled ? 'bg-[#121212]/95 backdrop-blur-xl py-3 md:py-4 shadow-2xl' : 'bg-transparent py-5 md:py-8'}`}>
       <div className="container mx-auto px-6 flex items-center justify-between">
-        {/* Logo Section - Aligned Left */}
-        <div className="lg:flex-1 flex justify-start">
+        {/* Logo Section - Flex-1 and left aligned for centering links */}
+        <div className="lg:flex-1 flex justify-start items-center">
           <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center shrink-0">
             <Logo className="h-8 md:h-11" />
           </Link>
         </div>
 
-        {/* Desktop Nav Links - Centered */}
-        <div className="hidden lg:flex items-center justify-center space-x-10">
+        {/* Desktop Nav Links - Centered in the middle of the container */}
+        <div className="hidden lg:flex items-center justify-center space-x-12 px-4">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -48,8 +48,8 @@ const Navbar: React.FC = () => {
           ))}
         </div>
 
-        {/* Desktop Button Section - Aligned Right */}
-        <div className="hidden lg:flex lg:flex-1 justify-end">
+        {/* Desktop Button Section - Flex-1 and right aligned for centering links */}
+        <div className="hidden lg:flex lg:flex-1 justify-end items-center">
           <Link
             to="/quote"
             className="bg-[#BF00FF] hover:bg-[#FF007F] text-white px-8 py-3 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all transform hover:-translate-y-1 shadow-lg shadow-[#BF00FF]/20"
@@ -58,7 +58,7 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
 
-        {/* Mobile Menu Toggle - Visible only on mobile */}
+        {/* Mobile Menu Toggle */}
         <button
           className="lg:hidden text-white focus:outline-none p-2 ml-4 shrink-0"
           onClick={() => setIsMenuOpen(!isMenuOpen)}

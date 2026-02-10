@@ -1,20 +1,21 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CREATIVE_SERVICES, DIGITAL_SERVICES } from '../constants';
 
-const FadeInSection: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = "" }) => {
+const FadeInSection: React.FC<{ children: React.ReactNode; className?: string; delay?: number }> = ({ children, className = "", delay = 0 }) => {
   const domRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fadeIn');
-          entry.target.classList.remove('opacity-0', 'translate-y-10');
+          setIsVisible(true);
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.15 });
 
     const { current } = domRef;
     if (current) observer.observe(current);
@@ -26,7 +27,10 @@ const FadeInSection: React.FC<{ children: React.ReactNode; className?: string }>
   return (
     <div 
       ref={domRef} 
-      className={`opacity-0 translate-y-10 transition-all duration-1000 ease-out ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+      className={`transition-all duration-1000 ease-out will-change-[opacity,transform] ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      } ${className}`}
     >
       {children}
     </div>
@@ -54,7 +58,7 @@ const Services: React.FC = () => {
               Book a Strategy Call
             </Link>
           </FadeInSection>
-          <FadeInSection className="lg:w-1/2 bg-[#1a1a1a] p-10 rounded-[2.5rem] border border-white/5" style={{ transitionDelay: '200ms' }}>
+          <FadeInSection className="lg:w-1/2 bg-[#1a1a1a] p-10 rounded-[2.5rem] border border-white/5" delay={200}>
             <h3 className="text-white font-black text-sm tracking-[0.3em] uppercase mb-8">The Onboarding Checklist</h3>
             <div className="space-y-6">
               {[
@@ -89,8 +93,8 @@ const Services: React.FC = () => {
               Capturing cinematic moments with absolute precision. We don't just take photos; we manufacture timeless visual narratives for elite brands.
             </p>
             <div className="grid sm:grid-cols-2 gap-8">
-              {CREATIVE_SERVICES.map((s) => (
-                <div key={s.id} className="p-8 rounded-3xl bg-[#1e1e1e] border-l-4 border-[#BF00FF] hover:border-[#FF007F] transition-all group">
+              {CREATIVE_SERVICES.map((s, idx) => (
+                <FadeInSection key={s.id} className="p-8 rounded-3xl bg-[#1e1e1e] border-l-4 border-[#BF00FF] hover:border-[#FF007F] transition-all group" delay={idx * 100}>
                   <div className="text-4xl mb-6 group-hover:scale-110 transition-transform origin-left">{s.icon}</div>
                   <h3 className="font-black text-xl mb-4 text-white uppercase tracking-tighter">{s.title}</h3>
                   <ul className="space-y-3">
@@ -101,11 +105,11 @@ const Services: React.FC = () => {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </FadeInSection>
               ))}
             </div>
           </FadeInSection>
-          <FadeInSection className="lg:w-1/2 relative">
+          <FadeInSection className="lg:w-1/2 relative" delay={300}>
             <div className="absolute -inset-4 bg-[#BF00FF]/5 blur-3xl rounded-full"></div>
             <img
               src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800"
@@ -127,8 +131,8 @@ const Services: React.FC = () => {
                 Engineering experiences that work. We combine user-centric design with robust development to build platforms that solve business problems and scale exponentially.
               </p>
               <div className="grid sm:grid-cols-2 gap-8">
-                {DIGITAL_SERVICES.map((s) => (
-                  <div key={s.id} className="p-8 rounded-3xl bg-[#121212] border-r-4 border-[#00FFFF] hover:border-[#BF00FF] transition-all text-right group">
+                {DIGITAL_SERVICES.map((s, idx) => (
+                  <FadeInSection key={s.id} className="p-8 rounded-3xl bg-[#121212] border-r-4 border-[#00FFFF] hover:border-[#BF00FF] transition-all text-right group" delay={idx * 100}>
                     <div className="text-4xl mb-6 group-hover:scale-110 transition-transform origin-right">{s.icon}</div>
                     <h3 className="font-black text-xl mb-4 text-white uppercase tracking-tighter">{s.title}</h3>
                     <ul className="space-y-3">
@@ -139,11 +143,11 @@ const Services: React.FC = () => {
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </FadeInSection>
                 ))}
               </div>
             </FadeInSection>
-            <FadeInSection className="lg:w-1/2 relative">
+            <FadeInSection className="lg:w-1/2 relative" delay={300}>
               <div className="absolute -inset-4 bg-[#00FFFF]/5 blur-3xl rounded-full"></div>
               <img
                 src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800"

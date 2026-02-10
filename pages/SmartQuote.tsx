@@ -67,7 +67,7 @@ const SmartQuote: React.FC = () => {
   const handleWhatsAppRedirect = () => {
     const brief = formData.specifics.tech || formData.specifics.nature || formData.specifics.goal || "New Project";
     const msg = encodeURIComponent(`Hi Jesprec! I just submitted a ${route} project request (${brief}) for ${formData.name}. I'd like to fast-track my consultation!`);
-    window.open(`https://wa.me/2348000000000?text=${msg}`, '_blank');
+    window.open(`https://wa.me/2348086215207?text=${msg}`, '_blank');
   };
 
   const isFormValid = formData.name && formData.email && formData.budget && formData.timeline;

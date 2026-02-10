@@ -5,7 +5,7 @@ import Logo from './Logo';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#0a0a0a] pt-32 pb-12 border-t border-white/5">
+    <footer className="bg-primary pt-32 pb-12 border-t border-white/5">
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-20 mb-20">
           <div className="col-span-2">
@@ -23,10 +23,10 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-white font-black mb-8 text-xs tracking-[0.4em] uppercase">The Hub</h4>
             <ul className="space-y-6">
-              <li><Link to="/portfolio" className="text-gray-500 hover:text-[#BF00FF] transition-colors text-xs font-bold uppercase tracking-[0.2em]">Portfolio Archives</Link></li>
-              <li><Link to="/services" className="text-gray-500 hover:text-[#BF00FF] transition-colors text-xs font-bold uppercase tracking-[0.2em]">Services Strategy</Link></li>
-              <li><Link to="/gallery" className="text-gray-500 hover:text-[#BF00FF] transition-colors text-xs font-bold uppercase tracking-[0.2em]">The Art Gallery</Link></li>
-              <li><Link to="/quote" className="text-gray-500 hover:text-[#BF00FF] transition-colors text-xs font-bold uppercase tracking-[0.2em]">Get a Quote</Link></li>
+              <li><Link to="/portfolio" className="text-gray-500 hover:text-brand-purple transition-colors text-xs font-bold uppercase tracking-[0.2em]">Portfolio Archives</Link></li>
+              <li><Link to="/services" className="text-gray-500 hover:text-brand-purple transition-colors text-xs font-bold uppercase tracking-[0.2em]">Services Strategy</Link></li>
+              <li><Link to="/gallery" className="text-gray-500 hover:text-brand-purple transition-colors text-xs font-bold uppercase tracking-[0.2em]">The Art Gallery</Link></li>
+              <li><Link to="/quote" className="text-gray-500 hover:text-brand-purple transition-colors text-xs font-bold uppercase tracking-[0.2em]">Get a Quote</Link></li>
             </ul>
           </div>
           <div>
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
         </div>
-        
+
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col gap-2">
             <p className="text-gray-600 text-[10px] tracking-[0.4em] uppercase font-black">

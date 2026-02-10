@@ -8,10 +8,10 @@ const Portfolio: React.FC = () => {
   const [activeVault, setActiveVault] = useState<Vault>(Vault.ALL);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const filteredProjects = activeVault === Vault.ALL 
-    ? PROJECTS 
+  const filteredProjects = activeVault === Vault.ALL
+    ? PROJECTS
     : PROJECTS.filter(p => p.vault === activeVault);
-  
+
   const vaults = Object.values(Vault);
 
   return (
@@ -23,9 +23,9 @@ const Portfolio: React.FC = () => {
             Moving beyond screenshots to prove expertise through strategy and execution.
           </p>
           {activeVault !== Vault.ALL && (
-            <button 
+            <button
               onClick={() => setActiveVault(Vault.ALL)}
-              className="text-[#BF00FF] text-[10px] font-black tracking-[0.3em] uppercase border-b border-[#BF00FF] pb-1 hover:text-white hover:border-white transition-all"
+              className="text-brand-purple text-[10px] font-black tracking-[0.3em] uppercase border-b border-brand-purple pb-1 hover:text-white hover:border-white transition-all"
             >
               Clear Filters
             </button>
@@ -34,12 +34,12 @@ const Portfolio: React.FC = () => {
       </div>
 
       {/* Vault Selection Tabs */}
-      <div className="flex flex-wrap justify-center gap-2 mb-12 md:mb-16 p-1 bg-[#1a1a1a] rounded-full max-w-2xl mx-auto border border-white/5">
+      <div className="flex flex-wrap justify-center gap-2 mb-12 md:mb-16 p-1 bg-muted rounded-full max-w-2xl mx-auto border border-white/5">
         {vaults.map((v) => (
           <button
             key={v}
             onClick={() => setActiveVault(v)}
-            className={`flex-1 px-4 md:px-8 py-3 text-[9px] md:text-xs font-bold tracking-widest uppercase transition-all rounded-full ${activeVault === v ? 'bg-[#BF00FF] text-white shadow-lg shadow-[#BF00FF]/20' : 'text-gray-500 hover:text-white'}`}
+            className={`flex-1 px-4 md:px-8 py-3 text-[9px] md:text-xs font-bold tracking-widest uppercase transition-all rounded-full ${activeVault === v ? 'bg-brand-purple text-white shadow-lg shadow-brand-purple/20' : 'text-gray-500 hover:text-white'}`}
           >
             {v.replace(' Vault', '')}
           </button>
@@ -49,10 +49,10 @@ const Portfolio: React.FC = () => {
       {/* Masonry-style Grid */}
       <div className="masonry-grid">
         {filteredProjects.map((project) => (
-          <div 
-            key={project.id} 
+          <div
+            key={project.id}
             onClick={() => project.caseStudy && setSelectedProject(project)}
-            className={`masonry-item group relative overflow-hidden rounded-2xl bg-[#1e1e1e] border border-white/5 ${project.caseStudy ? 'cursor-pointer' : 'cursor-default'}`}
+            className={`masonry-item group relative overflow-hidden rounded-2xl bg-muted border border-white/5 ${project.caseStudy ? 'cursor-pointer' : 'cursor-default'}`}
           >
             <div className="relative overflow-hidden aspect-[4/5]">
               <img
@@ -60,21 +60,21 @@ const Portfolio: React.FC = () => {
                 alt={project.title}
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-[#121212]/20 to-transparent opacity-80"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-primary/20 to-transparent opacity-80"></div>
             </div>
-            
+
             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10">
               <h3 className="text-xl md:text-2xl font-black text-white mb-2 uppercase tracking-tighter">{project.title}</h3>
               <p className="text-gray-400 text-xs md:text-sm mb-6 line-clamp-2 leading-relaxed">{project.description}</p>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map(tag => (
-                  <span key={tag} className="text-[9px] md:text-[10px] px-3 py-1 bg-white/5 text-[#00FFFF] rounded-full uppercase tracking-widest font-bold border border-white/5">{tag}</span>
+                  <span key={tag} className="text-[9px] md:text-[10px] px-3 py-1 bg-white/5 text-brand-cyan rounded-full uppercase tracking-widest font-bold border border-white/5">{tag}</span>
                 ))}
               </div>
               {project.caseStudy && (
                 <div className="mt-8 flex items-center justify-between">
-                  <span className="text-[#BF00FF] text-[9px] md:text-[10px] font-black tracking-[0.2em] uppercase">Deep Dive Case Study</span>
-                  <span className="text-xl text-[#BF00FF] group-hover:translate-x-2 transition-transform">→</span>
+                  <span className="text-brand-purple text-[9px] md:text-[10px] font-black tracking-[0.2em] uppercase">Deep Dive Case Study</span>
+                  <span className="text-xl text-brand-purple group-hover:translate-x-2 transition-transform">→</span>
                 </div>
               )}
             </div>
@@ -85,8 +85,8 @@ const Portfolio: React.FC = () => {
       {/* Case Study Modal */}
       {selectedProject && selectedProject.caseStudy && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-black/95 backdrop-blur-2xl animate-fadeIn">
-          <div className="bg-[#121212] w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-3xl md:rounded-[3rem] border border-white/10 relative shadow-2xl">
-            <button 
+          <div className="bg-primary w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-3xl md:rounded-[3rem] border border-white/10 relative shadow-2xl">
+            <button
               onClick={() => setSelectedProject(null)}
               className="absolute top-6 right-6 md:top-10 md:right-10 text-gray-500 hover:text-white transition-all bg-white/5 p-2 md:p-3 rounded-full z-10"
             >
@@ -96,49 +96,49 @@ const Portfolio: React.FC = () => {
             <div className="p-8 md:p-20">
               <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start mb-12 md:mb-20">
                 <div className="md:w-1/2">
-                   <span className="text-[#00FFFF] font-black tracking-[0.5em] uppercase text-[10px] mb-4 block">Anchor Project</span>
-                   <h2 className="text-3xl md:text-7xl font-black text-white leading-[1.1] md:leading-[0.9] uppercase tracking-tighter mb-8">{selectedProject.title}</h2>
-                   <div className="flex flex-wrap gap-2 md:gap-3">
+                  <span className="text-brand-cyan font-black tracking-[0.5em] uppercase text-[10px] mb-4 block">Anchor Project</span>
+                  <h2 className="text-3xl md:text-7xl font-black text-white leading-[1.1] md:leading-[0.9] uppercase tracking-tighter mb-8">{selectedProject.title}</h2>
+                  <div className="flex flex-wrap gap-2 md:gap-3">
                     {selectedProject.tags.map(tag => (
                       <span key={tag} className="text-[9px] md:text-[10px] px-3 md:px-4 py-2 bg-white/5 rounded-full border border-white/10 font-black tracking-widest uppercase">{tag}</span>
                     ))}
-                   </div>
+                  </div>
                 </div>
                 <div className="md:w-1/2 w-full">
-                   <img src={selectedProject.image} className="w-full aspect-video object-cover rounded-2xl md:rounded-[2rem] shadow-2xl border border-white/5" alt={selectedProject.title} />
+                  <img src={selectedProject.image} className="w-full aspect-video object-cover rounded-2xl md:rounded-[2rem] shadow-2xl border border-white/5" alt={selectedProject.title} />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16 border-t border-white/5 pt-10 md:pt-16">
                 <div>
-                  <h4 className="text-[#FF4500] font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
-                    <span className="w-2 h-2 bg-[#FF4500] rounded-full"></span> 01. The Challenge
+                  <h4 className="text-brand-pink font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
+                    <span className="w-2 h-2 bg-brand-pink rounded-full"></span> 01. The Challenge
                   </h4>
                   <p className="text-gray-400 text-sm leading-relaxed italic">"{selectedProject.caseStudy.challenge}"</p>
                 </div>
                 <div>
-                  <h4 className="text-[#BF00FF] font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
-                    <span className="w-2 h-2 bg-[#BF00FF] rounded-full"></span> 02. The Strategy
+                  <h4 className="text-brand-purple font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
+                    <span className="w-2 h-2 bg-brand-purple rounded-full"></span> 02. The Strategy
                   </h4>
                   <p className="text-gray-400 text-sm leading-relaxed">{selectedProject.caseStudy.strategy}</p>
                 </div>
                 <div>
-                  <h4 className="text-[#00FFFF] font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
-                    <span className="w-2 h-2 bg-[#00FFFF] rounded-full"></span> 03. The Result
+                  <h4 className="text-brand-cyan font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
+                    <span className="w-2 h-2 bg-brand-cyan rounded-full"></span> 03. The Result
                   </h4>
                   <p className="text-gray-400 text-sm leading-relaxed font-bold text-white">{selectedProject.caseStudy.result}</p>
                 </div>
               </div>
 
               <div className="mt-16 md:mt-24 pt-8 border-t border-white/5 flex flex-col items-center gap-8 text-center">
-                 <p className="text-gray-500 text-[10px] uppercase tracking-widest">Want similar results for your business?</p>
-                 <Link 
-                   to="/quote" 
-                   onClick={() => setSelectedProject(null)}
-                   className="w-full sm:w-auto px-10 md:px-16 py-4 md:py-5 bg-[#BF00FF] hover:bg-[#FF007F] text-white font-black rounded-full text-[10px] tracking-[0.3em] transition-all transform hover:-translate-y-1 block uppercase"
-                  >
-                    START A CONSULTATION
-                  </Link>
+                <p className="text-gray-500 text-[10px] uppercase tracking-widest">Want similar results for your business?</p>
+                <Link
+                  to="/quote"
+                  onClick={() => setSelectedProject(null)}
+                  className="w-full sm:w-auto px-10 md:px-16 py-4 md:py-5 bg-brand-purple hover:bg-brand-pink text-white font-black rounded-full text-[10px] tracking-[0.3em] transition-all transform hover:-translate-y-1 block uppercase"
+                >
+                  START A CONSULTATION
+                </Link>
               </div>
             </div>
           </div>

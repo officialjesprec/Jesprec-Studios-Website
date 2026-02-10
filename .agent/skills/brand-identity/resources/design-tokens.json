@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "brand_name": "Jesprec Studios",
+    "description": "Core design tokens for UI implementation."
+  },
+  "colors": {
+    "primary": {
+      "DEFAULT": "#121212",
+      "hover": "#0a0a0a",
+      "foreground": "#FFFFFF"
+    },
+    "secondary": {
+      "DEFAULT": "#F4F4F5",
+      "foreground": "#18181B"
+    },
+    "brand": {
+      "purple": "#BF00FF",
+      "cyan": "#00FFFF",
+      "pink": "#FF007F"
+    },
+    "background": "#121212",
+    "foreground": "#f4f4f4",
+    "muted": "#1a1a1a",
+    "accent": "#F4F4F5",
+    "destructive": "#EF4444",
+    "success": "#10B981"
+  },
+  "typography": {
+    "font_family_headings": [
+      "Montserrat",
+      "sans-serif"
+    ],
+    "font_family_body": [
+      "Open Sans",
+      "sans-serif"
+    ],
+    "font_weight_bold": "700",
+    "font_weight_normal": "400"
+  },
+  "ui": {
+    "border_radius_default": "0.5rem",
+    "border_radius_small": "0.25rem",
+    "spacing_base_unit": "4px"
+  }
+}

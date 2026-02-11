@@ -31,7 +31,7 @@ const Navbar: React.FC = () => {
         {/* Logo Section - Flex-1 and left aligned for centering links */}
         <div className="lg:flex-1 flex justify-start items-center">
           <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center shrink-0">
-            <Logo className="h-10 md:h-14" />
+            <Logo className="h-14 md:h-20" />
           </Link>
         </div>
 

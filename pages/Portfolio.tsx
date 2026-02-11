@@ -180,25 +180,87 @@ const Portfolio: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16 border-t border-white/10 pt-10 md:pt-16">
-                  <div>
-                    <h4 className="text-brand-pink font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
-                      <span className="w-2 h-2 bg-brand-pink rounded-full"></span> 01. The Challenge
-                    </h4>
-                    <p className="text-gray-400 text-sm leading-relaxed italic">"{selectedProject.case_study.challenge}"</p>
-                  </div>
-                  <div>
-                    <h4 className="text-brand-purple font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
-                      <span className="w-2 h-2 bg-brand-purple rounded-full"></span> 02. The Strategy
-                    </h4>
-                    <p className="text-gray-400 text-sm leading-relaxed">{selectedProject.case_study.strategy}</p>
-                  </div>
-                  <div>
-                    <h4 className="text-brand-cyan font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
-                      <span className="w-2 h-2 bg-brand-cyan rounded-full"></span> 03. The Result
-                    </h4>
-                    <p className="text-foreground font-black text-sm leading-relaxed uppercase tracking-widest">{selectedProject.case_study.result}</p>
-                  </div>
+                <div className="space-y-16 md:space-y-32 border-t border-white/10 pt-16 md:pt-32">
+                  {selectedProject.case_study.blocks ? (
+                    selectedProject.case_study.blocks.map((block, idx) => (
+                      <motion.div
+                        key={block.id || idx}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="max-w-4xl mx-auto"
+                      >
+                        {block.type === 'text' ? (
+                          <div className="bg-muted/30 p-8 md:p-12 rounded-[2.5rem] border border-brand-purple/20 shadow-xl shadow-brand-purple/5 relative overflow-hidden group">
+                            <div className="absolute top-0 left-0 w-1 h-full bg-brand-purple/30 group-hover:bg-brand-purple transition-all" />
+                            <h4 className="text-brand-purple font-black text-[10px] md:text-xs tracking-[0.4em] uppercase mb-6 flex items-center gap-3">
+                              <span className="w-2 h-2 bg-brand-purple rounded-full animate-pulse"></span>
+                              {block.label || `Analysis Phase ${idx + 1}`}
+                            </h4>
+                            <p className={`text-gray-300 text-sm md:text-lg leading-relaxed ${idx === 0 ? 'italic font-light' : 'font-normal'}`}>
+                              {block.content}
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="relative group rounded-3xl overflow-hidden bg-muted border border-white/5 shadow-2xl">
+                            {block.media_type === 'image' ? (
+                              <div className="relative overflow-hidden">
+                                <img
+                                  src={block.url}
+                                  alt={`Evidence ${idx}`}
+                                  onContextMenu={(e) => e.preventDefault()}
+                                  onDragStart={(e) => e.preventDefault()}
+                                  className="w-full h-auto object-cover select-none pointer-events-none group-hover:scale-[1.02] transition-transform duration-1000"
+                                />
+                                <div className="absolute inset-0 bg-brand-purple/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+                              </div>
+                            ) : (
+                              <div className="aspect-video bg-black flex items-center justify-center relative">
+                                <video
+                                  src={block.url}
+                                  controls
+                                  className="w-full h-full object-cover"
+                                  onContextMenu={(e) => e.preventDefault()}
+                                />
+                                <div className="absolute top-6 right-6 bg-black/60 backdrop-blur-xl px-4 py-2 rounded-xl pointer-events-none border border-white/10">
+                                  <span className="text-[9px] font-black text-white uppercase tracking-widest">Dynamic Motion Case</span>
+                                </div>
+                              </div>
+                            )}
+
+                            {block.media_type === 'image' && (
+                              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all bg-black/40 backdrop-blur-[2px]">
+                                <span className="px-8 py-4 bg-white/10 border border-white/20 rounded-full text-[10px] font-black text-white uppercase tracking-[0.2em] shadow-2xl">Protected Archive View</span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </motion.div>
+                    ))
+                  ) : (
+                    /* Legacy Fallback */
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
+                      <div>
+                        <h4 className="text-brand-pink font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
+                          <span className="w-2 h-2 bg-brand-pink rounded-full"></span> 01. The Challenge
+                        </h4>
+                        <p className="text-gray-400 text-sm leading-relaxed italic">"{selectedProject.case_study.challenge}"</p>
+                      </div>
+                      <div>
+                        <h4 className="text-brand-purple font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
+                          <span className="w-2 h-2 bg-brand-purple rounded-full"></span> 02. The Strategy
+                        </h4>
+                        <p className="text-gray-400 text-sm leading-relaxed">{selectedProject.case_study.strategy}</p>
+                      </div>
+                      <div>
+                        <h4 className="text-brand-cyan font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
+                          <span className="w-2 h-2 bg-brand-cyan rounded-full"></span> 03. The Result
+                        </h4>
+                        <p className="text-foreground font-black text-sm leading-relaxed uppercase tracking-widest">{selectedProject.case_study.result}</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="mt-16 md:mt-24 pt-8 border-t border-white/10 flex flex-col items-center gap-8 text-center">

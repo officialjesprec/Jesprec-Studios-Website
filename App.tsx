@@ -12,6 +12,7 @@ import AdminLogin from './pages/Admin/Login';
 import AdminDashboard from './pages/Admin/Dashboard';
 import PortfolioEditor from './pages/Admin/PortfolioEditor';
 import GalleryEditor from './pages/Admin/GalleryEditor';
+import SyncData from './pages/Admin/SyncData';
 
 // Scroll to top component
 const ScrollToTop: React.FC = () => {
@@ -41,6 +42,7 @@ const AppContent: React.FC = () => {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/portfolio" element={<PortfolioEditor />} />
           <Route path="/admin/gallery" element={<GalleryEditor />} />
+          <Route path="/admin/sync" element={<SyncData />} />
         </Routes>
       </main>
       {!isAdminPage && <Footer />}

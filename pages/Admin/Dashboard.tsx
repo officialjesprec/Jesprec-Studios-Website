@@ -195,22 +195,35 @@ const AdminDashboard: React.FC = () => {
                 {view === 'overview' ? (
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                            {stats.map((stat, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: idx * 0.1 }}
-                                    className="p-8 bg-muted rounded-[2.5rem] border border-white/5 relative overflow-hidden group"
-                                >
-                                    <div className={`text-3xl mb-4 ${stat.color}`}>{stat.icon}</div>
-                                    <div className="text-4xl font-black text-foreground mb-2">{stat.value}</div>
-                                    <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest">{stat.label}</div>
-                                    <div className={`absolute top-0 right-0 p-4 opacity-5 scale-150 group-hover:scale-[2] transition-transform duration-500 ${stat.color}`}>
-                                        {stat.icon}
-                                    </div>
-                                </motion.div>
-                            ))}
+
+                            {stats.map((stat, idx) => {
+                                const CardContent = (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: idx * 0.1 }}
+                                        className="p-8 bg-muted rounded-[2.5rem] border border-white/5 relative overflow-hidden group cursor-pointer"
+                                    >
+                                        <div className={`text-3xl mb-4 ${stat.color}`}>{stat.icon}</div>
+                                        <div className="text-4xl font-black text-foreground mb-2">{stat.value}</div>
+                                        <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest">{stat.label}</div>
+                                        <div className={`absolute top-0 right-0 p-4 opacity-5 scale-150 group-hover:scale-[2] transition-transform duration-500 ${stat.color}`}>
+                                            {stat.icon}
+                                        </div>
+                                    </motion.div>
+                                );
+
+                                if (stat.label === 'Portfolio Projects') {
+                                    return <Link key={idx} to="/admin/portfolio">{CardContent}</Link>;
+                                }
+                                if (stat.label === 'Gallery Items') {
+                                    return <Link key={idx} to="/admin/gallery">{CardContent}</Link>;
+                                }
+                                if (stat.label === 'Active Orders') {
+                                    return <div key={idx} onClick={() => setView('orders')}>{CardContent}</div>;
+                                }
+                                return <div key={idx}>{CardContent}</div>;
+                            })}
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

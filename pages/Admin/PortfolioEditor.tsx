@@ -137,12 +137,18 @@ const PortfolioEditor: React.FC = () => {
 
     const handleDelete = async (id: string) => {
         if (window.confirm('Are you sure you want to delete this project?')) {
+            console.log('Deleting project:', id);
             const { error } = await supabase
                 .from('projects')
                 .delete()
                 .eq('id', id);
-            if (error) alert(error.message);
-            else fetchProjects();
+
+            if (error) {
+                console.error('Error deleting project:', error);
+                alert(`Error deleting project: ${error.message}`);
+            } else {
+                fetchProjects();
+            }
         }
     };
 

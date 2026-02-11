@@ -66,18 +66,26 @@ const GalleryEditor: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        console.log('Submitting gallery item:', formData);
 
+        let result;
         if (editingItem) {
-            const { error } = await supabase
+            result = await supabase
                 .from('gallery_items')
                 .update(formData)
                 .eq('id', editingItem.id);
-            if (error) alert(error.message);
         } else {
-            const { error } = await supabase
+            result = await supabase
                 .from('gallery_items')
                 .insert([formData]);
-            if (error) alert(error.message);
+        }
+
+        const { error } = result;
+
+        if (error) {
+            console.error('Error saving item:', error);
+            alert(`Error saving item: ${error.message}`);
+            return;
         }
 
         setIsModalOpen(false);

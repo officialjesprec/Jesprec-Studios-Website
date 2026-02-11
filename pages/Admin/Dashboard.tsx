@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import { motion } from 'framer-motion';
-import { FiGrid, FiBarChart2, FiSettings, FiPlus, FiTrash2, FiEdit2, FiLogOut, FiHome, FiImage, FiShoppingBag, FiTruck, FiMail, FiDownload, FiBriefcase } from 'react-icons/fi';
+import { FiGrid, FiBarChart2, FiSettings, FiPlus, FiTrash2, FiEdit2, FiLogOut, FiHome, FiImage, FiShoppingBag, FiTruck, FiMail, FiDownload, FiBriefcase, FiTrendingUp, FiShield, FiTarget } from 'react-icons/fi';
 import Logo from '../../components/Logo';
 
 const AdminDashboard: React.FC = () => {
@@ -148,6 +148,9 @@ const AdminDashboard: React.FC = () => {
                     >
                         <FiMail /> Acquisitions
                     </button>
+                    <Link to="/admin/social-orders" className="flex items-center gap-4 p-4 rounded-2xl text-gray-500 hover:bg-white/5 hover:text-white transition-all font-black uppercase tracking-widest text-[10px]">
+                        <FiTrendingUp /> Social Orders
+                    </Link>
                     <button
                         onClick={() => setView('logistics')}
                         className={`w-full flex items-center gap-4 p-4 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] ${view === 'logistics' ? 'bg-brand-cyan text-white shadow-lg shadow-brand-cyan/20' : 'text-gray-500 hover:bg-white/5'}`}
@@ -166,6 +169,12 @@ const AdminDashboard: React.FC = () => {
                     </Link>
                     <Link to="/admin/gallery" className="flex items-center gap-4 p-4 rounded-2xl text-gray-500 hover:bg-white/5 hover:text-white transition-all font-black uppercase tracking-widest text-[10px]">
                         <FiImage /> Gallery Editor
+                    </Link>
+                    <Link to="/admin/social-packages" className="flex items-center gap-4 p-4 rounded-2xl text-gray-500 hover:bg-white/5 hover:text-white transition-all font-black uppercase tracking-widest text-[10px]">
+                        <span className="text-lg">📢</span> Social Manager
+                    </Link>
+                    <Link to="/admin/social-features" className="flex items-center gap-4 p-4 rounded-2xl text-gray-500 hover:bg-white/5 hover:text-white transition-all font-black uppercase tracking-widest text-[10px]">
+                        <span className="text-lg">✨</span> Feature Manager
                     </Link>
                 </nav>
 
@@ -237,6 +246,10 @@ const AdminDashboard: React.FC = () => {
                                     <Link to="/admin/gallery" className="p-6 bg-primary border border-white/5 rounded-2xl text-center hover:border-brand-pink transition-all group">
                                         <span className="block text-xl mb-2 group-hover:scale-110 transition-transform">🎨</span>
                                         <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Manage Gallery</span>
+                                    </Link>
+                                    <Link to="/admin/social-packages" className="p-6 bg-primary border border-white/5 rounded-2xl text-center hover:border-brand-cyan transition-all group col-span-2 md:col-span-1">
+                                        <span className="block text-xl mb-2 group-hover:scale-110 transition-transform">📢</span>
+                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Social Packages</span>
                                     </Link>
                                 </div>
                             </div>
@@ -423,25 +436,110 @@ const AdminDashboard: React.FC = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {[
-                            { label: 'System Health', value: '100%', color: 'text-green-500', detail: 'All systems operational' },
-                            { label: 'Weekly Visits', value: '1,284', color: 'text-brand-cyan', detail: '+12% from last week' },
-                            { label: 'Impressions', value: '42.5K', color: 'text-brand-purple', detail: 'Across all platforms' },
-                            { label: 'Annual Revenue', value: '₦4.2M+', color: 'text-brand-pink', detail: 'Art gallery & commissions' },
-                        ].map((item, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: idx * 0.1 }}
-                                className="p-8 bg-muted/50 border border-white/5 rounded-3xl"
-                            >
-                                <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-4">{item.label}</div>
-                                <div className={`text-4xl font-black mb-2 ${item.color}`}>{item.value}</div>
-                                <div className="text-[10px] font-medium text-gray-600 uppercase tracking-wider">{item.detail}</div>
-                            </motion.div>
-                        ))}
+                    <div className="space-y-12">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {[
+                                { label: 'System Health', value: '100%', detail: 'All systems operational', bg: 'bg-emerald-600 shadow-emerald-500/20', icon: <FiShield /> },
+                                { label: 'Weekly Visits', value: '1,284', detail: '+12% from last week', bg: 'bg-brand-cyan shadow-brand-cyan/20', icon: <FiTrendingUp /> },
+                                { label: 'Impressions', value: '42.5K', detail: 'Across all platforms', bg: 'bg-brand-purple shadow-brand-purple/20', icon: <FiTarget /> },
+                                { label: 'Revenue (MTD)', value: '₦850K', detail: 'Art gallery & socials', bg: 'bg-brand-pink shadow-brand-pink/20', icon: <FiBarChart2 /> },
+                            ].map((item, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    className={`p-8 ${item.bg} rounded-[2.5rem] relative overflow-hidden group shadow-2xl transition-all hover:scale-[1.02]`}
+                                >
+                                    <div className="relative z-10">
+                                        <div className="text-[10px] font-black text-white/60 uppercase tracking-widest mb-4">{item.label}</div>
+                                        <div className="text-4xl font-black text-white mb-2">{item.value}</div>
+                                        <div className="text-[10px] font-black text-white/40 uppercase tracking-wider">{item.detail}</div>
+                                    </div>
+                                    <div className="absolute top-0 right-0 p-4 opacity-10 scale-[2.5] text-white">
+                                        {item.icon}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        {/* Charts Section */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div className="p-10 bg-muted/30 backdrop-blur-md rounded-[3rem] border border-white/5 shadow-2xl">
+                                <div className="flex justify-between items-center mb-10">
+                                    <h3 className="text-xl font-black text-white uppercase tracking-tighter italic">Traffic Velocity</h3>
+                                    <div className="flex gap-2">
+                                        <span className="w-3 h-3 rounded-full bg-brand-cyan animate-pulse"></span>
+                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Real-time Pulse</span>
+                                    </div>
+                                </div>
+                                <div className="h-48 flex items-end justify-between gap-1">
+                                    {[40, 70, 45, 90, 65, 80, 55, 100, 85, 95, 60, 75].map((h, i) => (
+                                        <motion.div
+                                            key={i}
+                                            initial={{ height: 0 }}
+                                            animate={{ height: `${h}%` }}
+                                            transition={{ delay: i * 0.05, duration: 1 }}
+                                            className="w-full bg-brand-cyan/20 border-t-2 border-brand-cyan rounded-t-lg relative group"
+                                        >
+                                            <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-black text-[8px] font-black px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-20">
+                                                {h * 12}
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                                <div className="flex justify-between mt-6 text-[8px] font-black text-gray-600 uppercase tracking-widest">
+                                    <span>Mon</span>
+                                    <span>Wed</span>
+                                    <span>Fri</span>
+                                    <span>Sun</span>
+                                </div>
+                            </div>
+
+                            <div className="p-10 bg-muted/30 backdrop-blur-md rounded-[3rem] border border-white/5 shadow-2xl overflow-hidden relative group">
+                                <h3 className="text-xl font-black text-white uppercase tracking-tighter italic mb-10">Revenue Stream</h3>
+                                <svg viewBox="0 0 400 150" className="w-full h-48 overflow-visible">
+                                    <defs>
+                                        <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stopColor="#ff1a7d" stopOpacity="0.4" />
+                                            <stop offset="100%" stopColor="#ff1a7d" stopOpacity="0" />
+                                        </linearGradient>
+                                    </defs>
+                                    <path
+                                        d="M0 120 Q 50 110, 100 80 T 200 60 T 300 90 T 400 30 V 150 H 0 Z"
+                                        fill="url(#lineGrad)"
+                                    />
+                                    <motion.path
+                                        initial={{ pathLength: 0 }}
+                                        animate={{ pathLength: 1 }}
+                                        transition={{ duration: 2 }}
+                                        d="M0 120 Q 50 110, 100 80 T 200 60 T 300 90 T 400 30"
+                                        fill="none"
+                                        stroke="#ff1a7d"
+                                        strokeWidth="4"
+                                        strokeLinecap="round"
+                                    />
+                                    {/* Data Points */}
+                                    {[
+                                        { cx: 100, cy: 80, label: '₦210K' },
+                                        { cx: 200, cy: 60, label: '₦450K' },
+                                        { cx: 300, cy: 90, label: '₦320K' },
+                                        { cx: 400, cy: 30, label: '₦850K' }
+                                    ].map((pt, idx) => (
+                                        <g key={idx}>
+                                            <circle cx={pt.cx} cy={pt.cy} r="5" fill="#ff1a7d" className="group-hover:r-7 transition-all" />
+                                            <text x={pt.cx} y={pt.cy - 12} textAnchor="middle" className="fill-white text-[10px] font-black opacity-0 group-hover:opacity-100 transition-all">{pt.label}</text>
+                                        </g>
+                                    ))}
+                                </svg>
+                                <div className="flex justify-between mt-6 text-[8px] font-black text-gray-600 uppercase tracking-widest">
+                                    <span>Jan</span>
+                                    <span>Feb</span>
+                                    <span>Mar</span>
+                                    <span>Apr</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 )}
             </main>

@@ -10,46 +10,56 @@ const SyncData: React.FC = () => {
 
     const handleSync = async () => {
         setStatus('syncing');
-        setMessage('Migrating data...');
+        setMessage('Syncing data...');
 
         try {
-            // 1. Sync Projects
+            // 1. Sync Projects (Upsert based on title)
             const formattedProjects = PROJECTS.map((p: any) => ({
                 title: p.title,
                 vault: p.vault,
-                image_url: p.image || '', // Map 'image' to 'image_url'
+                image_url: p.image || '',
                 description: p.description,
                 tags: p.tags,
                 case_study: {
                     challenge: p.caseStudy?.challenge || '',
                     strategy: p.caseStudy?.strategy || '',
                     result: p.caseStudy?.result || '',
-                    references: [] // Initialize empty references
+                    references: []
                 }
             }));
 
-            const { error: pError } = await supabase
-                .from('projects')
-                .insert(formattedProjects);
+            // We use upsert with onConflict on 'title' (assuming title is unique enough for sync purposes)
+            // Ideally we'd have a unique constraint, but for now we'll check manually or use upsert if schema supports it.
+            // Since we don't have a unique constraint on title in schema, let's do a check.
 
-            if (pError) throw pError;
+            for (const p of formattedProjects) {
+                const { data: existing } = await supabase.from('projects').select('id').eq('title', p.title).single();
+                if (!existing) {
+                    await supabase.from('projects').insert(p);
+                } else {
+                    await supabase.from('projects').update(p).eq('id', existing.id);
+                }
+            }
 
             // 2. Sync Gallery Items
             const formattedArt = ART_ITEMS.map((a: any) => ({
                 name: a.name,
                 price: a.price,
-                image_url: a.image || '', // Map 'image' to 'image_url'
+                image_url: a.image || '',
                 category: a.category
             }));
 
-            const { error: aError } = await supabase
-                .from('gallery_items')
-                .insert(formattedArt);
-
-            if (aError) throw aError;
+            for (const a of formattedArt) {
+                const { data: existing } = await supabase.from('gallery_items').select('id').eq('name', a.name).single();
+                if (!existing) {
+                    await supabase.from('gallery_items').insert(a);
+                } else {
+                    await supabase.from('gallery_items').update(a).eq('id', existing.id);
+                }
+            }
 
             setStatus('done');
-            setMessage('Successfully migrated all data to Supabase!');
+            setMessage('Sync complete! New items added, existing items updated.');
         } catch (err: any) {
             console.error(err);
             setStatus('error');

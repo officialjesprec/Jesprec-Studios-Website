@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../supabaseClient';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiCheck, FiChevronLeft, FiMove, FiType, FiImage as FiImageIcon } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CaseStudyBlock } from '../../types';
 
 const PortfolioEditor: React.FC = () => {
@@ -10,6 +10,7 @@ const PortfolioEditor: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [editingProject, setEditingProject] = useState<any | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     // Form state
     const [formData, setFormData] = useState({
@@ -22,8 +23,17 @@ const PortfolioEditor: React.FC = () => {
     });
 
     useEffect(() => {
-        fetchProjects();
+        checkUser();
     }, []);
+
+    const checkUser = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            navigate('/admin/login');
+        } else {
+            fetchProjects();
+        }
+    };
 
     const fetchProjects = async () => {
         setLoading(true);
@@ -107,14 +117,26 @@ const PortfolioEditor: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        // Convert Google Drive links to direct view links
+        const processUrl = (url: string) => {
+            if (url.includes('drive.google.com') && url.includes('/file/d/')) {
+                const id = url.split('/file/d/')[1].split('/')[0];
+                return `https://drive.google.com/uc?export=view&id=${id}`;
+            }
+            return url;
+        };
+
         const payload = {
             title: formData.title,
             vault: formData.vault,
-            image_url: formData.image_url,
+            image_url: processUrl(formData.image_url),
             description: formData.description,
             tags: formData.tags.split(',').map(tag => tag.trim()),
             case_study: {
-                blocks: formData.blocks
+                blocks: formData.blocks.map(b => ({
+                    ...b,
+                    url: b.type === 'media' && b.url ? processUrl(b.url) : undefined
+                }))
             }
         };
 

@@ -170,6 +170,11 @@ const Gallery: React.FC = () => {
                   src={item.image_url}
                   alt={item.name}
                   className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 ${item.is_sold_out ? '' : 'grayscale group-hover:grayscale-0'}`}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = 'https://placehold.co/600x600/1a1a1a/FFF?text=Image+Unavailable';
+                  }}
                 />
 
                 {/* Status Badges */}
@@ -241,7 +246,16 @@ const Gallery: React.FC = () => {
                   <button onClick={resetPurchase} className="text-gray-500 hover:text-white transition-all mb-8 flex items-center gap-2 uppercase text-[10px] font-black tracking-widest">
                     <FiChevronLeft /> Back to Vault
                   </button>
-                  <img src={selectedItem.image_url} className="w-full aspect-square object-cover rounded-3xl shadow-2xl border border-white/10 mb-8" alt={selectedItem.name} />
+                  <img
+                    src={selectedItem.image_url}
+                    className="w-full aspect-square object-cover rounded-3xl shadow-2xl border border-white/10 mb-8"
+                    alt={selectedItem.name}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.onerror = null;
+                      target.src = 'https://placehold.co/600x600/1a1a1a/FFF?text=Image+Unavailable';
+                    }}
+                  />
                   <h2 className="text-3xl font-black text-white italic uppercase tracking-tighter mb-2">{selectedItem.name}</h2>
                   <p className="text-brand-purple text-[10px] font-black uppercase tracking-[0.3em]">{selectedItem.category}</p>
                 </div>

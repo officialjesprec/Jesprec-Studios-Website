@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../supabaseClient';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiCheck, FiChevronLeft, FiImage } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const GalleryEditor: React.FC = () => {
     const [items, setItems] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [editingItem, setEditingItem] = useState<any | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     // Form state
     const [formData, setFormData] = useState({
@@ -21,8 +22,17 @@ const GalleryEditor: React.FC = () => {
     });
 
     useEffect(() => {
-        fetchItems();
+        checkUser();
     }, []);
+
+    const checkUser = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            navigate('/admin/login');
+        } else {
+            fetchItems();
+        }
+    };
 
     const fetchItems = async () => {
         setLoading(true);
@@ -68,28 +78,76 @@ const GalleryEditor: React.FC = () => {
         e.preventDefault();
         console.log('Submitting gallery item:', formData);
 
-        let result;
-        if (editingItem) {
-            result = await supabase
-                .from('gallery_items')
-                .update(formData)
-                .eq('id', editingItem.id);
-        } else {
-            result = await supabase
-                .from('gallery_items')
-                .insert([formData]);
+        try {
+            // Validate inputs
+            if (!formData.name || !formData.price || !formData.image_url || !formData.category) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Process URL for various providers
+            const processUrl = (url: string) => {
+                let finalUrl = url.trim();
+
+                // Google Drive: Extract ID and convert to direct link
+                if (finalUrl.includes('drive.google.com')) {
+                    const idMatch = finalUrl.match(/[-\w]{25,}/); // Matches typical Drive IDs
+                    if (idMatch) {
+                        return `https://drive.google.com/uc?export=view&id=${idMatch[0]}`;
+                    }
+                }
+
+                // Dropbox: Ensure raw=1 for direct access
+                if (finalUrl.includes('dropbox.com')) {
+                    finalUrl = finalUrl.replace(/\?dl=[0-1]/, ''); // Remove existing dl param
+                    return finalUrl.includes('?') ? `${finalUrl}&raw=1` : `${finalUrl}?raw=1`;
+                }
+
+                // Pexels: If it's a Pexels image domain, assume it's good but maybe ensure typical params if missing?
+                // Actually Pexels direct links usually work fine. We'll leave them as is but trim whitespace.
+
+                // Pinterest: Handle i.pinimg.com (Direct) vs pinterest.com/pin/ (Page)
+                if (finalUrl.includes('pinimg.com')) {
+                    return finalUrl.split('?')[0]; // Remove potential tracking params
+                }
+
+                // Pixieset / Generic: Just return trimmed URL
+                return finalUrl;
+            };
+
+            const payload = {
+                ...formData,
+                stock_count: isNaN(formData.stock_count) ? 0 : formData.stock_count,
+                image_url: processUrl(formData.image_url)
+            };
+
+            let result;
+            if (editingItem) {
+                result = await supabase
+                    .from('gallery_items')
+                    .update(payload)
+                    .eq('id', editingItem.id);
+            } else {
+                result = await supabase
+                    .from('gallery_items')
+                    .insert([payload]);
+            }
+
+            const { error } = result;
+
+            if (error) {
+                console.error('Error saving item:', error);
+                alert(`Error saving item: ${error.message}`);
+                return;
+            }
+
+            alert(editingItem ? 'Item updated successfully!' : 'Item added to vault successfully!');
+            setIsModalOpen(false);
+            fetchItems();
+        } catch (err: any) {
+            console.error('Unexpected error:', err);
+            alert(`An unexpected error occurred: ${err.message || err}`);
         }
-
-        const { error } = result;
-
-        if (error) {
-            console.error('Error saving item:', error);
-            alert(`Error saving item: ${error.message}`);
-            return;
-        }
-
-        setIsModalOpen(false);
-        fetchItems();
     };
 
     const toggleSoldOut = async (item: any) => {
@@ -142,10 +200,31 @@ const GalleryEditor: React.FC = () => {
                                 className={`bg-muted/5 border border-white/5 rounded-[2rem] overflow-hidden group hover:border-brand-pink/30 transition-all flex flex-col relative ${item.is_sold_out ? 'opacity-60' : ''}`}
                             >
                                 <div className="aspect-square overflow-hidden relative">
-                                    <img src={item.image_url} alt={item.name} className={`w-full h-full object-cover transition-all duration-500 ${item.is_sold_out ? 'grayscale' : ''}`} />
-                                    <div className="absolute top-4 right-4 flex gap-2">
-                                        <button onClick={() => handleOpenModal(item)} className="p-3 bg-black/50 backdrop-blur-md rounded-xl text-white hover:bg-brand-pink transition-colors cursor-pointer z-10"><FiEdit2 size={12} /></button>
-                                        <button onClick={() => handleDelete(item.id)} className="p-3 bg-black/50 backdrop-blur-md rounded-xl text-white hover:bg-red-500 transition-colors cursor-pointer z-10"><FiTrash2 size={12} /></button>
+                                    <img
+                                        src={item.image_url}
+                                        alt={item.name}
+                                        className={`w-full h-full object-cover transition-all duration-500 ${item.is_sold_out ? 'grayscale' : ''}`}
+                                        onError={(e) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.onerror = null; // Prevent loop
+                                            target.src = 'https://placehold.co/600x600/1a1a1a/FFF?text=Image+Unavailable';
+                                        }}
+                                    />
+                                    <div className="absolute top-4 right-4 flex gap-2 z-30">
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); handleOpenModal(item); }}
+                                            className="p-3 bg-black/50 backdrop-blur-md rounded-xl text-white hover:bg-brand-pink transition-colors cursor-pointer"
+                                            title="Edit Piece"
+                                        >
+                                            <FiEdit2 size={12} />
+                                        </button>
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }}
+                                            className="p-3 bg-black/50 backdrop-blur-md rounded-xl text-white hover:bg-red-500 transition-colors cursor-pointer"
+                                            title="Delete Piece"
+                                        >
+                                            <FiTrash2 size={12} />
+                                        </button>
                                     </div>
                                     {item.is_sold_out && (
                                         <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[1px]">
@@ -218,8 +297,29 @@ const GalleryEditor: React.FC = () => {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-4">Category</label>
-                                        <input required value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} className="w-full bg-primary border border-white/5 rounded-2xl px-6 py-4 text-white focus:border-brand-pink transition-all outline-none" placeholder="e.g. Original Canvas" />
+                                        <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-4">Category / Medium</label>
+                                        <div className="relative">
+                                            <select
+                                                required
+                                                value={formData.category}
+                                                onChange={e => setFormData({ ...formData, category: e.target.value })}
+                                                className="w-full bg-primary border border-white/5 rounded-2xl px-6 py-4 text-white focus:border-brand-pink transition-all outline-none appearance-none cursor-pointer"
+                                            >
+                                                <option value="" disabled>Select Artwork Medium...</option>
+                                                <option value="Original Canvas">Original Canvas (Oil/Acrylic)</option>
+                                                <option value="Limited Edition Print">Limited Edition Print (Giclée)</option>
+                                                <option value="Digital Art">Digital Art / NFT</option>
+                                                <option value="Mixed Media">Mixed Media</option>
+                                                <option value="Charcoal/Sketch">Charcoal / Sketch</option>
+                                                <option value="Photography">Photography</option>
+                                                <option value="Sculpture">Sculpture / 3D Object</option>
+                                            </select>
+                                            <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+                                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                                </svg>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div className="flex items-center gap-4 p-6 bg-primary border border-white/5 rounded-2xl">

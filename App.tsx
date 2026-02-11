@@ -7,11 +7,15 @@ import Home from './pages/Home';
 import Portfolio from './pages/Portfolio';
 import Services from './pages/Services';
 import Gallery from './pages/Gallery';
+import SocialServices from './pages/SocialServices';
 import SmartQuote from './pages/SmartQuote';
 import AdminLogin from './pages/Admin/Login';
 import AdminDashboard from './pages/Admin/Dashboard';
 import PortfolioEditor from './pages/Admin/PortfolioEditor';
 import GalleryEditor from './pages/Admin/GalleryEditor';
+import SocialPackageManager from './pages/Admin/SocialPackageManager';
+import SocialFeatureManager from './pages/Admin/SocialFeatureManager';
+import SocialOrders from './pages/Admin/SocialOrders';
 import SyncData from './pages/Admin/SyncData';
 
 // Scroll to top component
@@ -36,12 +40,16 @@ const AppContent: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/social-media" element={<SocialServices />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/quote" element={<SmartQuote />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/portfolio" element={<PortfolioEditor />} />
           <Route path="/admin/gallery" element={<GalleryEditor />} />
+          <Route path="/admin/social-packages" element={<SocialPackageManager />} />
+          <Route path="/admin/social-features" element={<SocialFeatureManager />} />
+          <Route path="/admin/social-orders" element={<SocialOrders />} />
           <Route path="/admin/sync" element={<SyncData />} />
         </Routes>
       </main>

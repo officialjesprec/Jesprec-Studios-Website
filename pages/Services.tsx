@@ -120,7 +120,7 @@ const Services: React.FC = () => {
       </section>
 
       {/* Digital Wing */}
-      <section className="bg-primary/50 py-32 border-y border-white/5">
+      <section className="bg-muted/30 py-32 border-y border-white/5">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
             <FadeInSection className="lg:w-1/2">

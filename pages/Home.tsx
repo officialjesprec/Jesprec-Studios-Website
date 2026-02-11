@@ -63,24 +63,24 @@ const Home: React.FC = () => {
       </section>
 
       {/* The Jesprec Manifesto */}
-      <section className="py-24 md:py-32 px-6 bg-[#0d0d0d]">
+      <section className="py-24 md:py-32 px-6 bg-muted/30">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12 md:mb-16">
             <span className="text-[#FF4500] font-bold tracking-[0.4em] uppercase text-[10px] md:text-xs">The CEO Manifesto</span>
             <h2 className="text-2xl md:text-5xl font-black mt-4 mb-8 text-white uppercase tracking-tighter">Concepts to Reality.</h2>
           </div>
           <div className="space-y-6 md:space-y-8 text-left border-l-2 border-brand-purple/30 pl-6 md:pl-16">
-            <p className="text-gray-300 text-lg md:text-2xl font-light leading-relaxed">
+            <p className="text-white text-lg md:text-2xl font-light leading-relaxed">
               At Jesprec Studio Concepts, we believe that both a lens and a line of code require a sharp eye for detail, a passion for storytelling, and a commitment to excellence.
             </p>
             <p className="text-gray-400 text-base md:text-lg leading-relaxed">
-              Founded in the heart of Nigeria, Jesprec is a multidisciplinary powerhouse designed for the modern era. We don’t just offer services; we build identities. Whether we are capturing the cinematic essence of your milestones or engineering the future of your business, our goal remains the same: <span className="text-white font-bold italic">To turn your concepts into a living, breathing reality.</span>
+              Founded in the heart of Nigeria, Jesprec is a multidisciplinary powerhouse designed for the modern era. We don’t just offer services; we build identities. Whether we are capturing the cinematic essence of your milestones or engineering the future of your business, our goal remains the same: <span className="text-white font-semibold">To turn your concepts into a living, breathing reality.</span>
             </p>
             <p className="text-gray-400 text-base md:text-lg leading-relaxed">
               We bring a "Consultant-First" approach. We don’t just take your brief; we study your goals and deliver results that don’t just look good—they perform.
             </p>
             <div className="pt-8 md:pt-12">
-              <p className="text-white font-bold italic text-2xl md:text-3xl tracking-tighter">— The CEO, Jesprec Studio Concepts</p>
+              <p className="text-white font-bold text-2xl md:text-3xl tracking-tighter">— The CEO, Jesprec Studio Concepts</p>
               <div className="w-24 md:w-32 h-1 bg-gradient-to-r from-brand-purple to-transparent mt-3"></div>
             </div>
           </div>
@@ -134,7 +134,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 md:py-32 px-6 bg-[#0a0a0a]">
+      <section className="py-24 md:py-32 px-6 bg-muted/50">
         <div className="container mx-auto">
           <div className="text-center mb-16 md:mb-20">
             <span className="text-brand-cyan font-black tracking-[0.4em] uppercase text-[10px] md:text-xs block mb-4">Social Proof</span>

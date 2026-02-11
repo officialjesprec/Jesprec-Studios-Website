@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -19,10 +19,32 @@ const ScrollToTop: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) return savedTheme;
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
   return (
     <Router>
-      <div className="min-h-screen flex flex-col bg-primary text-white selection:bg-brand-purple selection:text-white">
-        <Navbar />
+      <div className="min-h-screen flex flex-col bg-primary text-foreground selection:bg-brand-purple selection:text-white">
+        <Navbar theme={theme} toggleTheme={toggleTheme} />
         <ScrollToTop />
         <main className="flex-grow">
           <Routes>

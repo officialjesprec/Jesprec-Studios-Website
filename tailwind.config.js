@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -10,14 +11,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#121212",
+        primary: "var(--primary)",
         brand: {
           purple: "#BF00FF",
           cyan: "#00FFFF",
           pink: "#FF007F"
         },
-        secondary: "#F4F4F5",
-        muted: "#1a1a1a"
+        secondary: "var(--secondary)",
+        muted: "var(--muted)",
+        foreground: "var(--foreground)",
+        background: "var(--background)"
       },
       fontFamily: {
         sans: ['"Open Sans"', 'sans-serif'],

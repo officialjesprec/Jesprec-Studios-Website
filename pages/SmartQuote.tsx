@@ -73,8 +73,8 @@ const SmartQuote: React.FC = () => {
   const isFormValid = formData.name && formData.email && formData.budget && formData.timeline;
 
   return (
-    <div className="pt-40 pb-24 px-6 min-h-screen flex items-center justify-center bg-primary">
-      <div className="w-full max-w-3xl bg-muted border border-white/5 rounded-[2.5rem] p-8 md:p-16 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] relative overflow-hidden">
+    <div className="pt-40 pb-24 px-6 min-h-screen flex items-center justify-center bg-background transition-colors duration-500">
+      <div className="w-full max-w-3xl bg-muted border border-foreground/5 rounded-[2.5rem] p-8 md:p-16 shadow-2xl relative overflow-hidden">
         {/* Modern Progress Line */}
         <div className="absolute top-0 left-0 w-full h-[2px] bg-white/5">
           <div
@@ -86,7 +86,7 @@ const SmartQuote: React.FC = () => {
         {phase === 'GATEWAY' && (
           <div className="animate-fadeIn">
             <span className="text-brand-cyan font-black tracking-[0.4em] text-[10px] uppercase mb-4 block">Consultation Gateway</span>
-            <h2 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter uppercase leading-none text-white">The Foundation.</h2>
+            <h2 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter uppercase leading-none text-foreground">The Foundation.</h2>
             <p className="text-gray-500 mb-12 font-light">What type of project are we bringing to life today?</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
@@ -101,7 +101,7 @@ const SmartQuote: React.FC = () => {
                   className="p-8 bg-primary border border-white/5 rounded-3xl text-left hover:border-brand-purple hover:bg-brand-purple/5 transition-all group border-b-4 border-b-transparent hover:border-b-brand-purple"
                 >
                   <span className="text-4xl block mb-6 group-hover:scale-110 transition-transform origin-left">{opt.icon}</span>
-                  <span className="font-black text-lg block uppercase mb-1 text-white group-hover:text-white transition-colors">{opt.label}</span>
+                  <span className="font-black text-lg block uppercase mb-1 text-foreground group-hover:text-foreground transition-colors">{opt.label}</span>
                   <span className="text-gray-600 text-xs font-light">{opt.desc}</span>
                 </button>
               ))}
@@ -112,7 +112,7 @@ const SmartQuote: React.FC = () => {
         {phase === 'DEEP_DIVE' && (
           <div className="animate-fadeIn">
             <button onClick={() => setPhase('GATEWAY')} className="text-gray-600 text-[10px] font-black mb-8 flex items-center gap-2 hover:text-brand-purple uppercase tracking-widest transition-colors">← CHANGE CATEGORY</button>
-            <h2 className="text-4xl font-black mb-10 uppercase tracking-tighter text-white">Project Specs</h2>
+            <h2 className="text-4xl font-black mb-10 uppercase tracking-tighter text-foreground">Project Specs</h2>
 
             <div className="space-y-8">
               {route === 'MEDIA' && (
@@ -120,7 +120,7 @@ const SmartQuote: React.FC = () => {
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div className="col-span-2">
                       <label className="block text-[10px] font-black text-gray-600 uppercase tracking-[0.2em] mb-4">Event Nature</label>
-                      <select className="w-full bg-primary border border-white/10 rounded-2xl px-6 py-5 focus:border-brand-purple outline-none text-gray-300 font-bold appearance-none" onChange={e => updateSpecifics('nature', e.target.value)}>
+                      <select className="w-full bg-primary border border-foreground/10 rounded-2xl px-6 py-5 focus:border-brand-purple outline-none text-foreground font-bold appearance-none" onChange={e => updateSpecifics('nature', e.target.value)}>
                         <option>Select Project Nature</option>
                         <option>Wedding / Milestone Ceremony</option>
                         <option>Corporate Documentary / Promo</option>
@@ -130,11 +130,11 @@ const SmartQuote: React.FC = () => {
                     </div>
                     <div className="col-span-2 sm:col-span-1">
                       <label className="block text-[10px] font-black text-gray-600 uppercase tracking-[0.2em] mb-4">City / State</label>
-                      <input className="w-full bg-primary border border-white/10 rounded-2xl px-6 py-5 focus:border-brand-purple outline-none text-white font-bold" placeholder="e.g. Lagos, Nigeria" onChange={e => updateSpecifics('location', e.target.value)} />
+                      <input className="w-full bg-primary border border-foreground/10 rounded-2xl px-6 py-5 focus:border-brand-purple outline-none text-foreground font-bold" placeholder="e.g. Lagos, Nigeria" onChange={e => updateSpecifics('location', e.target.value)} />
                     </div>
                     <div className="col-span-2 sm:col-span-1">
                       <label className="block text-[10px] font-black text-gray-600 uppercase tracking-[0.2em] mb-4">Guest Count (Est.)</label>
-                      <input className="w-full bg-primary border border-white/10 rounded-2xl px-6 py-5 focus:border-brand-purple outline-none text-white font-bold" placeholder="e.g. 200 - 500" onChange={e => updateSpecifics('guests', e.target.value)} />
+                      <input className="w-full bg-primary border border-foreground/10 rounded-2xl px-6 py-5 focus:border-brand-purple outline-none text-foreground font-bold" placeholder="e.g. 200 - 500" onChange={e => updateSpecifics('guests', e.target.value)} />
                     </div>
                   </div>
                 </>
@@ -178,7 +178,7 @@ const SmartQuote: React.FC = () => {
                   </div>
                   <div>
                     <label className="block text-[10px] font-black text-gray-600 uppercase tracking-[0.2em] mb-4">Primary Goal</label>
-                    <select className="w-full bg-primary border border-white/10 rounded-2xl px-6 py-5 outline-none text-gray-300 font-bold" onChange={e => updateSpecifics('goal', e.target.value)}>
+                    <select className="w-full bg-primary border border-foreground/10 rounded-2xl px-6 py-5 outline-none text-foreground font-bold" onChange={e => updateSpecifics('goal', e.target.value)}>
                       <option>Brand Awareness</option>
                       <option>Lead Generation & Sales</option>
                       <option>Pure Content Creation</option>
@@ -192,7 +192,7 @@ const SmartQuote: React.FC = () => {
                   <label className="block text-[10px] font-black text-gray-600 uppercase tracking-[0.2em] mb-4">Commission Details</label>
                   <textarea
                     rows={5}
-                    className="w-full bg-primary border border-white/10 rounded-2xl px-6 py-5 focus:border-brand-purple outline-none text-white font-bold resize-none"
+                    className="w-full bg-primary border border-foreground/10 rounded-2xl px-6 py-5 focus:border-brand-purple outline-none text-foreground font-bold resize-none"
                     placeholder="Size, Style, and Theme of your desired art piece..."
                     onChange={e => updateSpecifics('art_brief', e.target.value)}
                   ></textarea>
@@ -212,7 +212,7 @@ const SmartQuote: React.FC = () => {
         {phase === 'INVESTMENT' && (
           <div className="animate-fadeIn">
             <button onClick={() => setPhase('DEEP_DIVE')} className="text-gray-600 text-[10px] font-black mb-8 flex items-center gap-2 hover:text-brand-purple uppercase tracking-widest transition-colors">← BACK TO SPECS</button>
-            <h2 className="text-4xl font-black mb-10 uppercase tracking-tighter text-white">Budget & Timeline</h2>
+            <h2 className="text-4xl font-black mb-10 uppercase tracking-tighter text-foreground">Budget & Timeline</h2>
 
             <div className="space-y-10">
               <div>
@@ -264,12 +264,12 @@ const SmartQuote: React.FC = () => {
         {phase === 'FINALIZE' && (
           <div className="animate-fadeIn">
             <button onClick={() => setPhase('INVESTMENT')} className="text-gray-600 text-[10px] font-black mb-8 flex items-center gap-2 hover:text-brand-purple uppercase tracking-widest transition-colors">← BACK</button>
-            <h2 className="text-4xl font-black mb-6 uppercase tracking-tighter leading-none text-white">The Final Piece.</h2>
+            <h2 className="text-4xl font-black mb-6 uppercase tracking-tighter leading-none text-foreground">The Final Piece.</h2>
             <p className="text-gray-500 mb-10 font-light">Direct communication ensures elite results. Provide your professional coordinates.</p>
 
             <div className="space-y-6">
-              <input className="w-full bg-primary border border-white/10 rounded-2xl px-6 py-6 focus:border-brand-purple outline-none text-white font-bold" placeholder="Your Full Name" onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} />
-              <input className="w-full bg-primary border border-white/10 rounded-2xl px-6 py-6 focus:border-brand-purple outline-none text-white font-bold" placeholder="Professional Email" type="email" onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} />
+              <input className="w-full bg-primary border border-foreground/10 rounded-2xl px-6 py-6 focus:border-brand-purple outline-none text-foreground font-bold" placeholder="Your Full Name" onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} />
+              <input className="w-full bg-primary border border-foreground/10 rounded-2xl px-6 py-6 focus:border-brand-purple outline-none text-foreground font-bold" placeholder="Professional Email" type="email" onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} />
 
               {error && <p className="text-red-500 text-xs font-bold">{error}</p>}
 
@@ -287,7 +287,7 @@ const SmartQuote: React.FC = () => {
         {phase === 'SUCCESS' && (
           <div className="text-center py-12 animate-fadeIn">
             <div className="w-24 h-24 bg-brand-purple/10 text-brand-purple rounded-full flex items-center justify-center mx-auto mb-10 text-5xl">✓</div>
-            <h2 className="text-4xl font-black mb-4 tracking-tighter uppercase text-white">STRATEGY QUEUED</h2>
+            <h2 className="text-4xl font-black mb-4 tracking-tighter uppercase text-foreground">STRATEGY QUEUED</h2>
             <p className="text-gray-400 mb-12 max-w-sm mx-auto font-light">
               Thank you, {formData.name.split(' ')[0]}. Our strategist will review your details and reach out within 24 hours.
             </p>

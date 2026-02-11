@@ -5,7 +5,7 @@ import { ART_ITEMS } from '../constants';
 const Gallery: React.FC = () => {
   const handleWhatsAppInquiry = (itemName: string) => {
     const message = encodeURIComponent(`Hi Jesprec Studio, I'm interested in inquiring about the "${itemName}" from your gallery.`);
-    window.open(`https://wa.me/2348000000000?text=${message}`, '_blank');
+    window.open(`https://wa.me/2348086215207?text=${message}`, '_blank');
   };
 
   return (

@@ -2,8 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from './Logo';
+import { FiSun, FiMoon } from 'react-icons/fi';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  theme: string;
+  toggleTheme: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
@@ -49,7 +55,14 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Desktop Button Section - Flex-1 and right aligned for centering links */}
-        <div className="hidden lg:flex lg:flex-1 justify-end items-center">
+        <div className="hidden lg:flex lg:flex-1 justify-end items-center space-x-6">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full hover:bg-foreground/10 transition-colors text-foreground"
+            aria-label="Toggle Theme"
+          >
+            {theme === 'dark' ? <FiSun size={20} /> : <FiMoon size={20} />}
+          </button>
           <Link
             to="/quote"
             className="bg-brand-purple hover:bg-brand-pink text-white px-8 py-3 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all transform hover:-translate-y-1 shadow-lg shadow-brand-purple/20"
@@ -59,19 +72,28 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Mobile Menu Toggle */}
-        <button
-          className="lg:hidden text-white focus:outline-none p-2 ml-4 shrink-0"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle Menu"
-        >
-          <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
-          </svg>
-        </button>
+        <div className="flex items-center lg:hidden space-x-4">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full hover:bg-foreground/10 transition-colors text-foreground"
+            aria-label="Toggle Theme"
+          >
+            {theme === 'dark' ? <FiSun size={20} /> : <FiMoon size={20} />}
+          </button>
+          <button
+            className="text-foreground focus:outline-none p-2 shrink-0"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle Menu"
+          >
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav Overlay */}
-      <div className={`fixed inset-0 bg-primary z-[70] transition-transform duration-500 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden flex flex-col items-center justify-center space-y-10 p-6`}>
+      <div className={`fixed inset-0 bg-primary/80 backdrop-blur-2xl z-[70] transition-transform duration-500 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden flex flex-col items-center justify-center space-y-10 p-6`}>
         <button
           onClick={() => setIsMenuOpen(false)}
           className="absolute top-8 right-8 text-gray-500 hover:text-white p-2"
@@ -84,7 +106,7 @@ const Navbar: React.FC = () => {
             key={link.name}
             to={link.path}
             onClick={() => setIsMenuOpen(false)}
-            className={`text-3xl font-black uppercase tracking-[0.3em] transition-colors ${isActive(link.path) ? 'text-brand-purple' : 'text-gray-300'}`}
+            className={`text-xl font-black uppercase tracking-[0.3em] transition-colors ${isActive(link.path) ? 'text-brand-purple' : 'text-gray-300'}`}
           >
             {link.name}
           </Link>

@@ -17,7 +17,7 @@ const Portfolio: React.FC = () => {
   return (
     <div className="pt-24 md:pt-40 pb-24 px-6 container mx-auto">
       <div className="text-center mb-12 md:mb-16">
-        <h1 className="text-3xl md:text-6xl font-bold mb-4 md:mb-6 tracking-tighter">THE ARCHIVES</h1>
+        <h1 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-foreground uppercase">THE ARCHIVES</h1>
         <div className="flex flex-col items-center gap-6">
           <p className="text-gray-400 max-w-2xl mx-auto font-light italic text-sm md:text-base">
             Moving beyond screenshots to prove expertise through strategy and execution.
@@ -84,8 +84,8 @@ const Portfolio: React.FC = () => {
 
       {/* Case Study Modal */}
       {selectedProject && selectedProject.caseStudy && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-black/95 backdrop-blur-2xl animate-fadeIn">
-          <div className="bg-primary w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-3xl md:rounded-[3rem] border border-white/10 relative shadow-2xl">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-black/90 backdrop-blur-2xl animate-fadeIn">
+          <div className="bg-primary w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-3xl md:rounded-[3rem] border border-foreground/10 relative shadow-2xl">
             <button
               onClick={() => setSelectedProject(null)}
               className="absolute top-6 right-6 md:top-10 md:right-10 text-gray-500 hover:text-white transition-all bg-white/5 p-2 md:p-3 rounded-full z-10"

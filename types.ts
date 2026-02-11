@@ -15,10 +15,10 @@ export interface Project {
   id: string;
   title: string;
   vault: Vault;
-  image: string;
+  image_url: string;
   description: string;
   tags: string[];
-  caseStudy?: CaseStudy;
+  case_study?: CaseStudy;
 }
 
 export interface Service {
@@ -32,7 +32,7 @@ export interface ArtItem {
   id: string;
   name: string;
   price: string;
-  image: string;
+  image_url: string;
   category: string;
 }
 

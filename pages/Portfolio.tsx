@@ -1,18 +1,36 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PROJECTS } from '../constants';
 import { Vault, Project } from '../types';
+import { supabase } from '../supabaseClient';
 import DoodleBackground from '../components/DoodleBackground';
 
 const Portfolio: React.FC = () => {
-  const [activeVault, setActiveVault] = useState<Vault>(Vault.ALL);
+  const [selectedVault, setSelectedVault] = useState<Vault>(Vault.ALL);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredProjects = activeVault === Vault.ALL
-    ? PROJECTS
-    : PROJECTS.filter(p => p.vault === activeVault);
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (!error && data) {
+        setProjects(data as Project[]);
+      } else {
+        console.error('Error fetching projects:', error);
+      }
+      setLoading(false);
+    };
+    fetchProjects();
+  }, []);
+
+  const filteredProjects = projects.filter(project =>
+    selectedVault === Vault.ALL || project.vault === selectedVault
+  );
 
   const vaults = Object.values(Vault);
 
@@ -48,12 +66,12 @@ const Portfolio: React.FC = () => {
             Moving beyond screenshots to prove expertise through strategy and execution.
           </p>
           <AnimatePresence>
-            {activeVault !== Vault.ALL && (
+            {selectedVault !== Vault.ALL && (
               <motion.button
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
-                onClick={() => setActiveVault(Vault.ALL)}
+                onClick={() => setSelectedVault(Vault.ALL)}
                 className="text-brand-purple text-[10px] font-black tracking-[0.3em] uppercase border-b border-brand-purple pb-1 hover:text-white hover:border-white transition-all"
               >
                 Clear Filters
@@ -73,8 +91,8 @@ const Portfolio: React.FC = () => {
         {vaults.map((v) => (
           <button
             key={v}
-            onClick={() => setActiveVault(v)}
-            className={`flex-1 px-4 md:px-8 py-3 text-[9px] md:text-xs font-bold tracking-widest uppercase transition-all rounded-full ${activeVault === v ? 'bg-brand-purple text-white shadow-lg shadow-brand-purple/20' : 'text-gray-500 hover:text-brand-purple'}`}
+            onClick={() => setSelectedVault(v)}
+            className={`flex-1 px-4 md:px-8 py-3 text-[9px] md:text-xs font-bold tracking-widest uppercase transition-all rounded-full ${selectedVault === v ? 'bg-brand-purple text-white shadow-lg shadow-brand-purple/20' : 'text-gray-500 hover:text-brand-purple'}`}
           >
             {v.replace(' Vault', '')}
           </button>
@@ -86,19 +104,19 @@ const Portfolio: React.FC = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        key={activeVault}
+        key={selectedVault}
         className="masonry-grid relative z-10"
       >
         {filteredProjects.map((project) => (
           <motion.div
             key={project.id}
             variants={itemVariants}
-            onClick={() => project.caseStudy && setSelectedProject(project)}
-            className={`masonry-item group relative overflow-hidden rounded-2xl bg-muted border border-white/5 shadow-sm ${project.caseStudy ? 'cursor-pointer' : 'cursor-default'}`}
+            onClick={() => project.case_study && setSelectedProject(project)}
+            className={`masonry-item group relative overflow-hidden rounded-2xl bg-muted border border-white/5 shadow-sm ${project.case_study ? 'cursor-pointer' : 'cursor-default'}`}
           >
             <div className="relative overflow-hidden aspect-[4/5]">
               <img
-                src={project.image}
+                src={project.image_url}
                 alt={project.title}
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-110"
               />
@@ -113,7 +131,7 @@ const Portfolio: React.FC = () => {
                   <span key={tag} className="text-[9px] md:text-[10px] px-3 py-1 bg-white/5 text-brand-cyan rounded-full uppercase tracking-widest font-bold border border-white/5">{tag}</span>
                 ))}
               </div>
-              {project.caseStudy && (
+              {project.case_study && (
                 <div className="mt-8 flex items-center justify-between">
                   <span className="text-brand-purple text-[9px] md:text-[10px] font-black tracking-[0.2em] uppercase">Deep Dive Case Study</span>
                   <span className="text-xl text-brand-purple group-hover:translate-x-2 transition-transform">→</span>
@@ -126,7 +144,7 @@ const Portfolio: React.FC = () => {
 
       {/* Case Study Modal */}
       <AnimatePresence>
-        {selectedProject && selectedProject.caseStudy && (
+        {selectedProject && selectedProject.case_study && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -158,7 +176,7 @@ const Portfolio: React.FC = () => {
                     </div>
                   </div>
                   <div className="md:w-1/2 w-full">
-                    <img src={selectedProject.image} className="w-full aspect-video object-cover rounded-2xl md:rounded-[2rem] shadow-2xl border border-white/10" alt={selectedProject.title} />
+                    <img src={selectedProject.image_url} className="w-full aspect-video object-cover rounded-2xl md:rounded-[2rem] shadow-2xl border border-white/10" alt={selectedProject.title} />
                   </div>
                 </div>
 
@@ -167,19 +185,19 @@ const Portfolio: React.FC = () => {
                     <h4 className="text-brand-pink font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
                       <span className="w-2 h-2 bg-brand-pink rounded-full"></span> 01. The Challenge
                     </h4>
-                    <p className="text-gray-400 text-sm leading-relaxed italic">"{selectedProject.caseStudy.challenge}"</p>
+                    <p className="text-gray-400 text-sm leading-relaxed italic">"{selectedProject.case_study.challenge}"</p>
                   </div>
                   <div>
                     <h4 className="text-brand-purple font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
                       <span className="w-2 h-2 bg-brand-purple rounded-full"></span> 02. The Strategy
                     </h4>
-                    <p className="text-gray-400 text-sm leading-relaxed">{selectedProject.caseStudy.strategy}</p>
+                    <p className="text-gray-400 text-sm leading-relaxed">{selectedProject.case_study.strategy}</p>
                   </div>
                   <div>
                     <h4 className="text-brand-cyan font-black text-[10px] tracking-[0.3em] uppercase mb-4 md:mb-6 flex items-center gap-3">
                       <span className="w-2 h-2 bg-brand-cyan rounded-full"></span> 03. The Result
                     </h4>
-                    <p className="text-foreground font-black text-sm leading-relaxed uppercase tracking-widest">{selectedProject.caseStudy.result}</p>
+                    <p className="text-foreground font-black text-sm leading-relaxed uppercase tracking-widest">{selectedProject.case_study.result}</p>
                   </div>
                 </div>
 
